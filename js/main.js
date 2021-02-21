@@ -44,12 +44,17 @@ calculator.chooseOperation = function(op) {
     this.update();
 }
 
+calculator.percent = function() {
+    this.currNum = (this.currNum / 100).toString();
+    this.update();
+}
+
 calculator.negate = function() {
     if (this.currNum === '0') return;
 
     if (this.currNum.startsWith('-')) {
         this.currNum = this.currNum.slice(1);
-    }  else {
+    }   else {
         this.currNum = this.currNum.padStart(this.currNum.length + 1, '-');
     }
 
@@ -101,26 +106,47 @@ calculator.operate = function() {
 calculator.update = function() {
     // toLocaleString limits output to 3 decimal places
     // so only toLocaleString the whole number part
-    // if number is empty parseFloat will return NaN
+    // limit length of number so it fits in display
+
+    // console.log(this.prevNum);
+    // console.log(this.currNum);
 
     if (this.prevNum && this.prevNum.includes('.')) {
         const prevNumArr = this.prevNum.split('.');
-        prevNumDisplay.innerText = parseFloat(prevNumArr[0]).toLocaleString() 
-                                    + '.' + prevNumArr[1];
+        const wholeNum = parseFloat(prevNumArr[0]).toLocaleString();
+        const wholeNumLength = prevNumArr[0].length;
+        const decimals = this.prevNum.length > 17 ? 
+                        prevNumArr[1].slice(0, 17 - wholeNumLength) + ' ' + this.operation
+                        : prevNumArr[1];
+
+        prevNumDisplay.innerText = wholeNum + '.' + decimals;
+
+    }   else if (this.prevNum.length > 18) {
+        prevNumDisplay.innerText = parseFloat(this.prevNum).toExponential(12) 
+                                    + ' ' 
+                                    + this.operation;
     }   else if (this.prevNum) {
         prevNumDisplay.innerText = parseFloat(this.prevNum).toLocaleString() 
-                                    + ' ' + this.operation;
+                                    + ' ' 
+                                    + this.operation;
     }   else {
         prevNumDisplay.innerText = '';
     }
 
     if (this.currNum.includes('.')) {
         const currNumArr = this.currNum.split('.');
-        currNumDisplay.innerText = parseFloat(currNumArr[0]).toLocaleString() + '.' + currNumArr[1];
-    }  else if (!isNaN(parseFloat(this.currNum))) {
-        currNumDisplay.innerText = parseFloat(this.currNum).toLocaleString();
+        const wholeNum = parseFloat(currNumArr[0]).toLocaleString();
+        const wholeNumLength = currNumArr[0].length;
+        const decimals = this.currNum.length > 19 ? 
+                        currNumArr[1].slice(0, 19 - wholeNumLength)
+                        : currNumArr[1];
+
+        currNumDisplay.innerText = wholeNum + '.' + decimals;
+
+    }   else if (this.currNum.length > 16) {
+        currNumDisplay.innerText = parseFloat(this.currNum).toExponential(15);
     }   else {
-        currNumDisplay.innerText = this.currNum;
+        currNumDisplay.innerText = parseFloat(this.currNum).toLocaleString();
     }
 }
 
@@ -130,6 +156,7 @@ const prevNumDisplay = document.querySelector('#prev-num');
 const currNumDisplay = document.querySelector('#curr-num');
 const numberBtns = document.querySelectorAll('.number');
 const operatorBtns = document.querySelectorAll('.operator');
+const percentBtn = document.querySelector('.percent');
 const negateBtn = document.querySelector('.negate');
 const equalsBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
@@ -141,14 +168,14 @@ buttons.forEach(button => {
 });
 
 function highlightButton(e) {
-    buttons.forEach(button => button.style.border = '')
-    e.target.style.border = '5px solid green';
+    buttons.forEach(button => button.classList.remove('focus'));
+    e.target.classList.add('focus');
 }
 
 // remove highlight when you click off the calculator
 document.addEventListener('click', (e) => {
     if (e.path[0] === document.querySelector('.wrapper')) {
-        buttons.forEach(button => button.style.border = '');
+            buttons.forEach(button => button.classList.remove('focus'));
     }
 });
 
@@ -165,6 +192,7 @@ operatorBtns.forEach(operatorBtn => {
     });
 });
 
+percentBtn.addEventListener('click', () => calculator.percent());
 negateBtn.addEventListener('click', () => calculator.negate());
 equalsBtn.addEventListener('click', () => calculator.operate());
 clearBtn.addEventListener('click', () => calculator.clear());
@@ -172,7 +200,7 @@ deleteBtn.addEventListener('click', () => calculator.delete());
 
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === 'Space') e.preventDefault();
+    e.preventDefault();
 
     const button = e.key === 'Backspace' ? 
                     document.querySelector('button[data-key="Delete"]')
