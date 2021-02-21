@@ -1,4 +1,6 @@
 
+/* ---CALCULATOR OBJECT--- */
+
 const calculator = {
     currNum : '0',
     prevNum : '',
@@ -76,9 +78,10 @@ calculator.delete = function() {
 calculator.operate = function() {
     if (!this.currNum || !this.prevNum) return;
 
-    let result;
     const firstNum = parseFloat(this.prevNum);
     const secondNum = parseFloat(this.currNum);
+
+    let result;
     switch(this.operation) {
         case '+':
             result = firstNum + secondNum;
@@ -97,7 +100,9 @@ calculator.operate = function() {
             break;
     }
 
-    this.currNum = result.toString();
+    // convert to BigInt to prevent exponent notation from being sent to update()
+    // and to keep precision(? not sure)
+    this.currNum = BigInt(result).toString();
     this.prevNum = '';
     this.computed = true;
     this.update();
@@ -107,9 +112,6 @@ calculator.update = function() {
     // toLocaleString limits output to 3 decimal places
     // so only toLocaleString the whole number part
     // limit length of number so it fits in display
-
-    // console.log(this.prevNum);
-    // console.log(this.currNum);
 
     if (this.prevNum && this.prevNum.includes('.')) {
         const prevNumArr = this.prevNum.split('.');
@@ -150,6 +152,9 @@ calculator.update = function() {
     }
 }
 
+
+
+/* --- DOM HANDLING --- */
 
 const buttons = document.querySelectorAll('button');
 const prevNumDisplay = document.querySelector('#prev-num');
