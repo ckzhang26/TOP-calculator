@@ -10,7 +10,7 @@ const calculator = {
 }
 
 calculator.append = function(val) {
-    if (this.currNum.length >= 15) return;
+    if (this.currNum.length >= 15 && !this.computed) return;
 
     // don't add decimal if currNum already has a decimal
     // unless currNum is the result from a previous calculation
@@ -32,7 +32,7 @@ calculator.append = function(val) {
     if (this.currNum.startsWith('0')) {
         if (val === '0' && this.currNumEntered && !this.currNum.includes('.')) {
             return;
-        }   else if (val !== '.') {
+        }   else if (val !== '.' && !this.currNum.includes('.')) {
             this.currNum = this.currNum.slice(1);
         }
     }
@@ -43,6 +43,8 @@ calculator.append = function(val) {
 }
 
 calculator.chooseOperation = function(op) {
+    if (!this.currNumEntered) return;
+
     // if both prevNum and currNum are set and operation is clicked, do previous operation
     // then set new operation
     if (this.currNum && this.prevNum) this.operate();

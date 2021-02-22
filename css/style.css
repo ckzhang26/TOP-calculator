@@ -34,7 +34,7 @@ html, body {
 
 .display h2 {
     margin: 0;
-    padding: 10px 10px 10px 0px;
+    padding: 10px 20px;
     height: 50%;
 }
 
@@ -193,3 +193,6 @@ button:focus {
 .minus {
     padding-bottom: 7px;
 }
+
+
+
