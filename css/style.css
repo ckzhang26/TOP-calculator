@@ -49,7 +49,7 @@ button {
 /* THEME */
 
 .wrapper {
-    background: url('/img/lgBw51.jpg');
+    background: url('../img/lgBw51.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
