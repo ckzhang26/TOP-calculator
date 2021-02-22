@@ -43,11 +43,9 @@ calculator.append = function(val) {
 }
 
 calculator.chooseOperation = function(op) {
-    if (!this.currNumEntered) return;
-
     // if both prevNum and currNum are set and operation is clicked, do previous operation
     // then set new operation
-    if (this.currNum && this.prevNum) this.operate();
+    if (this.currNumEntered && this.prevNum) this.operate();
     
     this.operation = op;
 
@@ -107,8 +105,7 @@ calculator.operate = function() {
             result = firstNum * secondNum;
             break;
         case '÷':
-            if (secondNum === 0) return alert('STOP: CANNOT DIVIDE BY ZERO');
-            result = firstNum / secondNum;
+            result = secondNum === 0 ? 'SNARKY ERROR MESSAGE' : firstNum / secondNum
             break;
         default: 
             break;
@@ -150,6 +147,9 @@ calculator.update = function() {
     
             currNumDisplay.innerText = wholeNum + '.' + decimals;
         }
+    }   else if (this.currNum === 'SNARKY ERROR MESSAGE') {
+        currNumDisplay.innerText = this.currNum;
+        this.currNum = '0';
     }   else if (this.currNum.length > 16) {
         currNumDisplay.innerText = parseFloat(this.currNum).toExponential(8);
     }   else {
