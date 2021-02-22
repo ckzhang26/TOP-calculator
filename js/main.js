@@ -2,11 +2,11 @@
 /* ---CALCULATOR OBJECT--- */
 
 const calculator = {
-    currNum : '0',
-    currNumEntered : false,
-    prevNum : '',
-    operation : '',
-    computed : false,
+    currNum: '0',
+    currNumEntered: false,
+    prevNum: '',
+    operation: '',
+    computed: false,
 }
 
 calculator.append = function(val) {
@@ -174,7 +174,10 @@ const deleteBtn = document.querySelector('.delete');
 
 
 buttons.forEach(button => {
-    button.addEventListener('click', highlightButton);
+    button.addEventListener('click', (e) => {
+        highlightButton(e);
+        playSound();
+    });
 });
 
 function highlightButton(e) {
@@ -182,7 +185,14 @@ function highlightButton(e) {
     e.target.classList.add('focus');
 }
 
-// remove highlight when you click off the calculator
+function playSound() {
+    const audio = document.querySelector('audio');
+    audio.volume = soundController.volume;
+    audio.currentTime = 0;
+    audio.play();
+}
+
+//  remove highlight when you click off the calculator
 document.addEventListener('click', (e) => {
     if (e.path[0] === document.querySelector('.wrapper')) {
             buttons.forEach(button => button.classList.remove('focus'));
@@ -209,7 +219,7 @@ clearBtn.addEventListener('click', () => calculator.clear());
 deleteBtn.addEventListener('click', () => calculator.delete());
 
 
-// Keyboard Support
+//  Keyboard Support
 document.addEventListener('keydown', (e) => {
     const button = getPressedButton(e);
     button?.click();
@@ -217,6 +227,8 @@ document.addEventListener('keydown', (e) => {
 })
 
 document.addEventListener('keyup', (e) => {
+    if (e.key === 'm') return;
+
     const button = getPressedButton(e);
     button?.classList.remove('active');
 })
@@ -224,15 +236,38 @@ document.addEventListener('keyup', (e) => {
 function getPressedButton(e) {
     e.preventDefault();
 
-    if (e.key === 'Escape') {
-        return document.querySelector('.clear');
-    }   else if (e.key === 'Backspace') {
-        return document.querySelector('.delete');
-    }   else {
-        return document.querySelector(`button[data-key="${e.key}"]`);
+    switch(e.key) {
+        case 'Escape':
+            return document.querySelector('.clear');
+        case 'Backspace':
+            return document.querySelector('.delete');
+        case 'm':
+            soundController.toggleSound();
+            break;
+        default:
+            return document.querySelector(`button[data-key="${e.key}"]`);
     }
 }
 
+
+//  Sound Control
+const soundIcons = document.querySelectorAll('.sound-icon');
+soundIcons.forEach(soundIcon => {
+    soundIcon.addEventListener('click', () => {
+        soundController.toggleSound();
+    });
+});
+
+const soundController = {
+    muted: false,
+    volume: 0.5,
+
+    toggleSound() {
+        this.muted = !this.muted;
+        this.volume = this.muted ? 0 : 0.5;
+        soundIcons.forEach(soundIcon => soundIcon.classList.toggle('hidden'));
+    }
+}
 
 
 

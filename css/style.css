@@ -32,10 +32,14 @@ html, body {
     grid-column: 1 / 5;
 }
 
-.display h2 {
+.display-wrapper {
     margin: 0;
     padding: 10px 20px;
     height: 50%;
+}
+
+.display h2 {
+    margin: 0;
 }
 
 button {
@@ -79,11 +83,11 @@ button {
     text-align: end;
 }
 
-h2:first-child {
+.prev-num-wrapper h2 {
     font-size: 2.5rem;
 }
 
-h2:last-child {
+.curr-num-wrapper h2 {
     font-size: 3.8rem;
 }
 
@@ -201,4 +205,6 @@ button:focus {
 }
 
 
-
+.sound-icon.hidden {
+    display: none;
+}

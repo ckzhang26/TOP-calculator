@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/main.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/resources/imgs/calculator-icon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/886e0e5bac.js" crossorigin="anonymous"></script>
+    <script src="/js/main.js" defer></script>
     <title>Calculator</title>
 </head>
 <body>
@@ -13,8 +15,14 @@
     <div class="wrapper">
         <div class="container">
             <div class="display">
-                <h2 id="prev-num"></h2>
-                <h2 id="curr-num"></h2>
+                <div class="display-wrapper prev-num-wrapper">
+                        <i class="sound-icon fas fa-volume-up"></i>
+                        <i class="sound-icon fas fa-volume-mute hidden"></i>
+                    <h2 id="prev-num"></h2>
+                </div>
+                <div class="display-wrapper curr-num-wrapper">
+                    <h2 id="curr-num"></h2>
+                </div>
             </div>
             <button class="clear">Clear</button>
             <button class="delete" data-key="Delete">Delete</button>
@@ -43,6 +51,10 @@
         </div>
     </div>
 
+    <audio 
+        src="/resources/sounds/click.mp3"
+        type="audio/mpeg">
+    </audio>
 
 </body>
 </html>
