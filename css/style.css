@@ -34,7 +34,7 @@ html, body {
 
 .display h2 {
     margin: 0;
-    padding: 10px 25px;
+    padding: 10px 10px 10px 0px;
     height: 50%;
 }
 
@@ -65,14 +65,21 @@ button {
 
 .display {
     background: rgb(168, 175, 123);
-    color: white;
     overflow: hidden;
 }
 
 .display h2 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 3rem;
+    font-family: monospace;
+    color: black;
     text-align: end;
+}
+
+h2:first-child {
+    font-size: 2.5rem;
+}
+
+h2:last-child {
+    font-size: 3.8rem;
 }
 
 .display, button {
@@ -97,7 +104,6 @@ button:focus {
 .focus {
     border: 4px solid white;
 }
-
 
 
 .number, .negate, .percent {
@@ -169,7 +175,6 @@ button:focus {
                 rgba(255, 195, 75, 0.5),
                 rgba(251, 121, 48, 0.5));
 }
-
 
 
 .operator, .equals {

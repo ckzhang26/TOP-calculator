@@ -3,22 +3,19 @@
 
 const calculator = {
     currNum : '0',
+    currNumEntered : false,
     prevNum : '',
     operation : '',
     computed : false,
 }
 
 calculator.append = function(val) {
-    if (val === '.' && this.currNum.includes('.') && !this.computed) {
+    if (this.currNum.length >= 15) return;
+
+    // don't add decimal if currNum already has a decimal
+    // unless currNum is the result from a previous calculation
+    if ((val === '.' && this.currNum.includes('.') && !this.computed)) {
         return;
-    }
-
-    if (this.currNum === '0') {
-        if (val === '0') return;
-
-        // if append value is a decimal keep 0 and append,
-        // otherwise remove 0 then append
-        if (val !== '.') this.currNum = '';
     }
 
     // if current number is a result,
@@ -28,7 +25,20 @@ calculator.append = function(val) {
         this.computed = false;
     }
 
+    // currNum initializes/resets with 0
+    // if user has selected 0 as currNum, don't add more 0s
+    // otherwise remove the initial 0 then append
+    // unless value is a decimal then keep 0 and append
+    if (this.currNum.startsWith('0')) {
+        if (val === '0' && this.currNumEntered && !this.currNum.includes('.')) {
+            return;
+        }   else if (val !== '.') {
+            this.currNum = this.currNum.slice(1);
+        }
+    }
+
     this.currNum += val;
+    this.currNumEntered = true;
     this.update();
 }
 
@@ -43,6 +53,7 @@ calculator.chooseOperation = function(op) {
     // otherwise if prevNum is set, just change operation
     this.prevNum = (this.prevNum || this.currNum) + ' ' + this.operation;
     this.currNum = '0';
+    this.currNumEntered = false;
     this.update();
 }
 
@@ -65,6 +76,7 @@ calculator.negate = function() {
 
 calculator.clear = function() {
     this.currNum = '0';
+    this.currNumEntered = false;
     this.prevNum = '';
     this.operation = '';
     this.update();
@@ -76,7 +88,7 @@ calculator.delete = function() {
 }
 
 calculator.operate = function() {
-    if (!this.currNum || !this.prevNum) return;
+    if (!this.currNumEntered || !this.prevNum) return;
 
     const firstNum = parseFloat(this.prevNum);
     const secondNum = parseFloat(this.currNum);
@@ -100,9 +112,7 @@ calculator.operate = function() {
             break;
     }
 
-    // convert to BigInt to prevent exponent notation from being sent to update()
-    // and to keep precision(? not sure)
-    this.currNum = BigInt(result).toString();
+    this.currNum = result.toString();
     this.prevNum = '';
     this.computed = true;
     this.update();
@@ -116,17 +126,10 @@ calculator.update = function() {
     if (this.prevNum && this.prevNum.includes('.')) {
         const prevNumArr = this.prevNum.split('.');
         const wholeNum = parseFloat(prevNumArr[0]).toLocaleString();
-        const wholeNumLength = prevNumArr[0].length;
-        const decimals = this.prevNum.length > 17 ? 
-                        prevNumArr[1].slice(0, 17 - wholeNumLength) + ' ' + this.operation
-                        : prevNumArr[1];
+        const decimals = prevNumArr[1];
 
         prevNumDisplay.innerText = wholeNum + '.' + decimals;
 
-    }   else if (this.prevNum.length > 18) {
-        prevNumDisplay.innerText = parseFloat(this.prevNum).toExponential(12) 
-                                    + ' ' 
-                                    + this.operation;
     }   else if (this.prevNum) {
         prevNumDisplay.innerText = parseFloat(this.prevNum).toLocaleString() 
                                     + ' ' 
@@ -136,17 +139,17 @@ calculator.update = function() {
     }
 
     if (this.currNum.includes('.')) {
-        const currNumArr = this.currNum.split('.');
-        const wholeNum = parseFloat(currNumArr[0]).toLocaleString();
-        const wholeNumLength = currNumArr[0].length;
-        const decimals = this.currNum.length > 19 ? 
-                        currNumArr[1].slice(0, 19 - wholeNumLength)
-                        : currNumArr[1];
-
-        currNumDisplay.innerText = wholeNum + '.' + decimals;
-
+        if (/e[+-]/.test(this.currNum)) {
+            currNumDisplay.innerText = parseFloat(this.currNum).toExponential(8);
+        }   else {
+            const currNumArr = this.currNum.split('.');
+            const wholeNum = parseFloat(currNumArr[0]).toLocaleString();
+            const decimals = currNumArr[1];
+    
+            currNumDisplay.innerText = wholeNum + '.' + decimals;
+        }
     }   else if (this.currNum.length > 16) {
-        currNumDisplay.innerText = parseFloat(this.currNum).toExponential(15);
+        currNumDisplay.innerText = parseFloat(this.currNum).toExponential(8);
     }   else {
         currNumDisplay.innerText = parseFloat(this.currNum).toLocaleString();
     }
