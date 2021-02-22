@@ -50,7 +50,10 @@ button {
 /* THEME */
 
 .wrapper {
-    background: url('../img/lgBw51.jpg');
+    background: radial-gradient(
+                        circle at center,
+                        rgb(155, 167, 179), 
+                        rgb(62, 79, 97));
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -111,72 +114,72 @@ button:focus {
 
 .number, .negate, .percent {
     background: linear-gradient(
-                160deg, 
-                rgba(73, 80, 93, 1), 
-                rgba(34, 35, 43, 1));
+                    160deg, 
+                    rgba(73, 80, 93, 1), 
+                    rgba(34, 35, 43, 1));
 }
 
 .operator {
     background: linear-gradient(
-                160deg, 
-                rgba(168, 168, 168, 1), 
-                rgba(83, 82, 90, 1));
+                    160deg, 
+                    rgba(168, 168, 168, 1), 
+                    rgba(83, 82, 90, 1));
 }
 
 .clear {
     background: linear-gradient(
-                160deg, 
-                rgba(218, 104, 104, 1), 
-                rgba(190, 27, 27, 1));
+                    160deg, 
+                    rgba(218, 104, 104, 1), 
+                    rgba(190, 27, 27, 1));
 }
 
 .delete {
     background: linear-gradient(
-                160deg, 
-                rgba(92, 160, 214, 1), 
-                rgba(22, 78, 160, 1));
+                    160deg, 
+                    rgba(92, 160, 214, 1), 
+                    rgba(22, 78, 160, 1));
 }
 
 .equals {
     background: linear-gradient(
-                160deg,
-                rgba(255, 195, 75, 1),
-                rgba(251, 121, 48, 1));
+                    160deg,
+                    rgba(255, 195, 75, 1),
+                    rgba(251, 121, 48, 1));
 }
 
 .number:hover, .negate:hover, .percent:hover {
     background: linear-gradient(
-        160deg, 
-        rgba(73, 80, 93, 0.5), 
-        rgba(34, 35, 43, 0.5));
+                    160deg, 
+                    rgba(73, 80, 93, 0.5), 
+                    rgba(34, 35, 43, 0.5));
 }
 
 .operator:hover {
     background: linear-gradient(
-                160deg, 
-                rgba(168, 168, 168, 0.5), 
-                rgba(83, 82, 90, 0.5));
+                    160deg, 
+                    rgba(168, 168, 168, 0.5), 
+                    rgba(83, 82, 90, 0.5));
 }
 
 .clear:hover {
     background: linear-gradient(
-                160deg, 
-                rgba(218, 104, 104, 0.5), 
-                rgba(190, 27, 27, 0.5));
+                    160deg, 
+                    rgba(218, 104, 104, 0.5), 
+                    rgba(190, 27, 27, 0.5));
 }
 
 .delete:hover {
     background: linear-gradient(
-                160deg, 
-                rgba(92, 160, 214, 0.5), 
-                rgba(22, 78, 160, 0.5));
+                    160deg, 
+                    rgba(92, 160, 214, 0.5), 
+                    rgba(22, 78, 160, 0.5));
 }
 
 .equals:hover {
     background: linear-gradient(
-                160deg,
-                rgba(255, 195, 75, 0.5),
-                rgba(251, 121, 48, 0.5));
+                    160deg,
+                    rgba(255, 195, 75, 0.5),
+                    rgba(251, 121, 48, 0.5));
 }
 
 
