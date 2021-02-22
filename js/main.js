@@ -209,15 +209,30 @@ clearBtn.addEventListener('click', () => calculator.clear());
 deleteBtn.addEventListener('click', () => calculator.delete());
 
 
+// Keyboard Support
 document.addEventListener('keydown', (e) => {
+    const button = getPressedButton(e);
+    button?.click();
+    button?.classList.add('active');
+})
+
+document.addEventListener('keyup', (e) => {
+    const button = getPressedButton(e);
+    button?.classList.remove('active');
+})
+
+function getPressedButton(e) {
     e.preventDefault();
 
-    const button = e.key === 'Backspace' ? 
-                    document.querySelector('button[data-key="Delete"]')
-                    : document.querySelector(`button[data-key="${e.key}"]`);
+    if (e.key === 'Escape') {
+        return document.querySelector('.clear');
+    }   else if (e.key === 'Backspace') {
+        return document.querySelector('.delete');
+    }   else {
+        return document.querySelector(`button[data-key="${e.key}"]`);
+    }
+}
 
-    button?.click();
-})
 
 
 
