@@ -79,9 +79,9 @@ function getPressedButton(e) {
 
     switch(e.key) {
         case 'Escape':
-            return document.querySelector('.clear');
+            return clearBtn;
         case 'Backspace':
-            return document.querySelector('.delete');
+            return deleteBtn;
         case 'm':
             soundController.toggleSound();
             break;

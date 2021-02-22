@@ -1,6 +1,4 @@
 
-/* ---CALCULATOR OBJECT--- */
-
 const calculator = {
     currNum: '0',
     currNumEntered: false,
@@ -118,6 +116,9 @@ calculator.operate = function() {
 }
 
 calculator.update = function() {
+    const prevNumDisplay = document.querySelector('#prev-num');
+    const currNumDisplay = document.querySelector('#curr-num');
+
     // toLocaleString limits output to 3 decimal places
     // so only toLocaleString the whole number part
     // limit length of number so it fits in display
@@ -156,10 +157,6 @@ calculator.update = function() {
         currNumDisplay.innerText = parseFloat(this.currNum).toLocaleString();
     }
 }
-
-const prevNumDisplay = document.querySelector('#prev-num');
-const currNumDisplay = document.querySelector('#curr-num');
-
 
 
 export default calculator;
